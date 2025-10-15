@@ -4,21 +4,36 @@ import * as express_serve_static_core from 'express-serve-static-core';
 import http from 'http';
 
 interface AppOptions {
-    routes?: {
-        path: string;
-        router: any;
-        middleware?: any;
-    }[];
+    routes?: RouteOptions;
     enableSocket?: boolean;
     jwtSecret?: string;
     models?: {
         UserSocket: any;
+        Admin: any;
+        App_Flow: any;
+        App_Setting: any;
+        Group_Setting: any;
+        Language_status: any;
+        Language_setting: any;
+        One_signal_setting: any;
+        Website_Setting: any;
     };
-    onSocketConnect?: (socket: any, io: Server) => void;
+    language_functions?: {
+        fetchLanguages: () => Promise<any>;
+        addLanguageColumn: (language: string) => Promise<any>;
+    };
+    sequelize?: any;
+    Sequelize?: any;
+    onSocketConnect?: (io: Server) => void;
     cronJobs?: {
         schedule: string;
         job: () => void;
     }[];
+}
+interface RouteOptions {
+    no_auth_route?: any;
+    auth_routes?: any;
+    admin_routes?: any;
 }
 declare function createApp(options?: AppOptions): Promise<{
     app: express_serve_static_core.Express;
@@ -26,4 +41,4 @@ declare function createApp(options?: AppOptions): Promise<{
     io: Server<socket_io.DefaultEventsMap, socket_io.DefaultEventsMap, socket_io.DefaultEventsMap, any>;
 }>;
 
-export { type AppOptions, createApp };
+export { type AppOptions, type RouteOptions, createApp };
