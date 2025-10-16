@@ -5,6 +5,7 @@ import http from 'http';
 
 interface AppOptions {
     routes?: RouteOptions;
+    product_type?: string;
     enableSocket?: boolean;
     jwtSecret?: string;
     models?: {
